@@ -32,12 +32,19 @@ class RolesController extends Controller
 
     public function edit(Role $role)
     {
-        return view('admin.roles.edit',compact('role'));
+        $permissions = Permission::all();
+        return view('admin.roles.edit',compact('role','permissions'));
     }
 
     public function update(RoleRequest $request, Role $role)
     {
-
+        $permission_ids = $request->input('permission_ids');
+        $role->permissions()->sync($permission_ids);
+        $input = [
+            'title'=>$request->title
+        ];
+        $role->update($input);
+        return redirect(route('roles.index'))->with('success','The role was updated');
     }
 
     public function show(Role $role)
@@ -45,9 +52,11 @@ class RolesController extends Controller
 
     }
 
-    public function destroy(Role $role)
+    public function destroy($id)
     {
-
+        $r = Role::findOrFail($id);
+        $r->delete();
+        return redirect(route('roles.index'))->with('success','The role was deleted');
     }
 
     public function massDestroy(Request $request)

@@ -29,7 +29,7 @@
                 <td>{{$role->permissions->pluck('title')->implode(', ')}}</td>
                 <td style="display:flex">
                     <a href="{{route('roles.edit', $role)}}"><i class="fas fa-edit"></i></a>
-                    <form action="{{route('users.destroy',[$role->id])}}" method="POST">
+                    <form action="{{route('roles.destroy',[$role->id])}}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" style="border:none; background: none; color: red" href=""><i class="fas fa-trash-alt" style="margin-left: 5px;"></i></button>

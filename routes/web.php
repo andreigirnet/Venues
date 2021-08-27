@@ -50,7 +50,8 @@ Auth::routes(['register' => false]);
     Route::get('/permissions', 'App\Http\Controllers\Admin\PermissionsController@index')->name('permissions.index');
     Route::get('/create', 'App\Http\Controllers\Admin\PermissionsController@create')->name('permissions.create');
     Route::post('/store', 'App\Http\Controllers\Admin\PermissionsController@store')->name('permissions.store');
-    Route::get('/edit', 'App\Http\Controllers\Admin\PermissionsController@edit')->name('permissions.edit');
+    Route::get('/edit/{permission}', 'App\Http\Controllers\Admin\PermissionsController@edit')->name('permissions.edit');
+    Route::patch('/update/{permission}', 'App\Http\Controllers\Admin\PermissionsController@update')->name('permissions.update');
     Route::delete('permissions/destroy/{permission}', 'App\Http\Controllers\Admin\PermissionsController@destroy')->name('permissions.destroy');
 
     // Roles
@@ -60,7 +61,7 @@ Auth::routes(['register' => false]);
     Route::post('roles/store', 'App\Http\Controllers\Admin\RolesController@store')->name('roles.store');
     Route::get('roles/edit/{role}', 'App\Http\Controllers\Admin\RolesController@edit')->name('roles.edit');
     Route::patch('roles/update/{role}', 'App\Http\Controllers\Admin\RolesController@update')->name('roles.update');
-    Route::delete('roles/destroy/{role}', 'App\Http\Controllers\Admin\RolesController@edit')->name('roles.destroy');
+    Route::delete('roles/destroy/{role}', 'App\Http\Controllers\Admin\RolesController@destroy')->name('roles.destroy');
 
     // Users
     Route::delete('users/destroy', 'App\Http\Controllers\Admin\UsersController@massDestroy')->name('users.massDestroy');
@@ -72,12 +73,13 @@ Auth::routes(['register' => false]);
     Route::delete('users/destroy/{user}', 'App\Http\Controllers\Admin\UsersController@destroy')->name('users.destroy');
 
     // Locations
-    Route::delete('locations/destroy', 'App\Http\Controllers\Admin\LocationsController@massDestroy')->name('locations.massDestroy');
+    Route::delete('locations/destroy', 'App\Http\Controllers\Admin\LocationsController@destroy')->name('locations.destroy');
     Route::post('locations/media', 'App\Http\Controllers\Admin\LocationsController@storeMedia')->name('locations.storeMedia');
-    Route::get('admin/locations', 'App\Http\Controllers\Admin\PermissionsController@index')->name('admin.locations.index');
-    Route::get('admin/locations/create', 'App\Http\Controllers\Admin\PermissionsController@create')->name('admin.locations.create');
-    Route::post('admin/locations/store', 'App\Http\Controllers\Admin\PermissionsController@store')->name('admin.locations.store');
-    Route::get('admin/locations/edit', 'App\Http\Controllers\Admin\PermissionsController@edit')->name('admin.locations.edit');
+    Route::get('admin/locations', 'App\Http\Controllers\Admin\LocationsController@index')->name('locations.index');
+    Route::get('admin/locations/create', 'App\Http\Controllers\Admin\LocationsController@create')->name('locations.create');
+    Route::post('admin/locations/store', 'App\Http\Controllers\Admin\LocationsController@store')->name('locations.store');
+    Route::get('admin/locations/edit', 'App\Http\Controllers\Admin\LocationsController@edit')->name('locations.edit');
+    Route::delete('locations/destroy', 'App\Http\Controllers\Admin\LocationsController@destroy')->name('locations.destroy');
 
     // Event Types
     Route::delete('admin/event-types/destroy', 'App\Http\Controllers\Admin\EventTypesController@massDestroy')->name('event-types.massDestroy');

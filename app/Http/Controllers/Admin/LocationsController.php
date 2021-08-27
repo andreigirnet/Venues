@@ -3,22 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyLocationRequest;
-use App\Http\Requests\StoreLocationRequest;
-use App\Http\Requests\UpdateLocationRequest;
-use App\Location;
-use Gate;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class LocationsController extends Controller
 {
-    use MediaUploadingTrait;
+
 
     public function index()
     {
-        abort_if(Gate::denies('location_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $locations = Location::all();
 
@@ -27,7 +21,6 @@ class LocationsController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('location_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.locations.create');
     }

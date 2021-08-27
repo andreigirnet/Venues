@@ -33,38 +33,31 @@ class PermissionsController extends Controller
 
     public function edit(Permission $permission)
     {
-        abort_if(Gate::denies('permission_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.permissions.edit', compact('permission'));
     }
 
-    public function update(UpdatePermissionRequest $request, Permission $permission)
+    public function update(PermissionRequest $request, Permission $permission)
     {
         $permission->update($request->all());
 
-        return redirect()->route('admin.permissions.index');
+        return redirect(route('permissions.index'))->with('success','Permission updated');
     }
 
     public function show(Permission $permission)
     {
-        abort_if(Gate::denies('permission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.permissions.show', compact('permission'));
     }
 
-    public function destroy(Permission $permission)
+    public function destroy($id)
     {
-        abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $permission = Permission::findOrFail($id);
         $permission->delete();
 
-        return back();
+        return redirect(route('permissions.index'))->with('success','Permission deleted');
     }
 
     public function massDestroy(MassDestroyPermissionRequest $request)
     {
-        Permission::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

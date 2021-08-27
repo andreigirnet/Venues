@@ -1,51 +1,30 @@
 @extends('layouts.admin')
 @section('content')
-
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.edit') }} {{ trans('cruds.role.title_singular') }}
-    </div>
-
-    <div class="card-body">
-        <form action="{{ route("admin.roles.update", [$role->id]) }}" method="POST" enctype="multipart/form-data">
+    <h2 style="margin-top: 10px;"> Edit a Role</h2>
+    <div style="width:1000px; margin: 20px auto 0 auto">
+        <form action="{{route('roles.update',$role->id)}}" method="POST">
             @csrf
-            @method('PUT')
-            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-                <label for="title">{{ trans('cruds.role.fields.title') }}*</label>
-                <input type="text" id="title" name="title" class="form-control" value="{{ old('title', isset($role) ? $role->title : '') }}" required>
-                @if($errors->has('title'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('title') }}
-                    </em>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.role.fields.title_helper') }}
-                </p>
+            @method('patch')
+            <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+
+                <input name="title" type="title" value="{{$role->title}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
-            <div class="form-group {{ $errors->has('permissions') ? 'has-error' : '' }}">
-                <label for="permissions">{{ trans('cruds.role.fields.permissions') }}*
-                    <span class="btn btn-info btn-xs select-all">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all">{{ trans('global.deselect_all') }}</span></label>
-                <select name="permissions[]" id="permissions" class="form-control select2" multiple="multiple" required>
-                    @foreach($permissions as $id => $permissions)
-                        <option value="{{ $id }}" {{ (in_array($id, old('permissions', [])) || isset($role) && $role->permissions->contains($id)) ? 'selected' : '' }}>{{ $permissions }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('permissions'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('permissions') }}
-                    </em>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.role.fields.permissions_helper') }}
-                </p>
+            <label for="select">Permissions for this role</label>
+            <Select id="select" name="permission_id" style=" width: 1000px;border-radius: 3px;height: 33px; background-color: aliceblue; margin-top: 5px; margin-bottom: 18px;">
+                @foreach($permissions as $permission)
+                    <option value="{{$permission->id}}" >{{$permission->title}}</option>
+                @endforeach
+            </Select>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>
-            <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
-            </div>
+
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
         </form>
-
-
     </div>
-</div>
 @endsection
