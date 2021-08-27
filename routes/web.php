@@ -47,12 +47,11 @@ Auth::routes(['register' => false]);
 
     Route::get('/admin', 'App\Http\Controllers\Admin\HomeController@index')->name('admin.home');
     // Permissions
-    Route::delete('permissions/destroy', 'App\Http\Controllers\Admin\PermissionsController@massDestroy')->name('permissions.massDestroy');
     Route::get('/permissions', 'App\Http\Controllers\Admin\PermissionsController@index')->name('permissions.index');
-    Route::get('/create', 'App\Http\Controllers\Admin\PermissionsController@create')->name('admin.permissions.create');
-    Route::post('/store', 'App\Http\Controllers\Admin\PermissionsController@store')->name('admin.permissions.store');
-    Route::get('/edit', 'App\Http\Controllers\Admin\PermissionsController@edit')->name('admin.permissions.edit');
-    Route::resource('permissions', PermissionsController::class);
+    Route::get('/create', 'App\Http\Controllers\Admin\PermissionsController@create')->name('permissions.create');
+    Route::post('/store', 'App\Http\Controllers\Admin\PermissionsController@store')->name('permissions.store');
+    Route::get('/edit', 'App\Http\Controllers\Admin\PermissionsController@edit')->name('permissions.edit');
+    Route::delete('permissions/destroy/{permission}', 'App\Http\Controllers\Admin\PermissionsController@destroy')->name('permissions.destroy');
 
     // Roles
     Route::delete('roles/destroy', 'App\Http\Controllers\Admin\RolesController@massDestroy')->name('roles.massDestroy');

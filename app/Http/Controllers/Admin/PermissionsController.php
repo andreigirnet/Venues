@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyPermissionRequest;
-use App\Http\Requests\StorePermissionRequest;
-use App\Http\Requests\UpdatePermissionRequest;
+use App\Http\Requests\PermissionRequest;
 use App\Models\Permission;
 use Gate;
 use Illuminate\Http\Request;
@@ -15,25 +14,21 @@ class PermissionsController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('permission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $permissions = Permission::all();
-
-        return view('admin.permissions.index', compact('permissions'));
+        return view('admin.permissions.index',compact('permissions'));
     }
 
     public function create()
     {
-        abort_if(Gate::denies('permission_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.permissions.create');
     }
 
-    public function store(StorePermissionRequest $request)
+    public function store(PermissionRequest $request)
     {
         $permission = Permission::create($request->all());
-
-        return redirect()->route('admin.permissions.index');
+        $permission->save();
+        return redirect(route('permissions.index'))->with('success','Permission created');
     }
 
     public function edit(Permission $permission)

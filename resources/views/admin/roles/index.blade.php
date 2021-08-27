@@ -28,7 +28,7 @@
                 <td>{{$role->title}}</td>
                 <td>{{$role->permissions->pluck('title')->implode(', ')}}</td>
                 <td style="display:flex">
-                    <a href="{{route('users.edit', $role)}}"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('roles.edit', $role)}}"><i class="fas fa-edit"></i></a>
                     <form action="{{route('users.destroy',[$role->id])}}" method="POST">
                         @csrf
                         @method('DELETE')

@@ -32,10 +32,10 @@ class RolesController extends Controller
 
     public function edit(Role $role)
     {
-
+        return view('admin.roles.edit',compact('role'));
     }
 
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
 
     }
