@@ -73,13 +73,14 @@ Auth::routes(['register' => false]);
     Route::delete('users/destroy/{user}', 'App\Http\Controllers\Admin\UsersController@destroy')->name('users.destroy');
 
     // Locations
-    Route::delete('locations/destroy', 'App\Http\Controllers\Admin\LocationsController@destroy')->name('locations.destroy');
     Route::post('locations/media', 'App\Http\Controllers\Admin\LocationsController@storeMedia')->name('locations.storeMedia');
     Route::get('admin/locations', 'App\Http\Controllers\Admin\LocationsController@index')->name('locations.index');
+    Route::get('admin/location/{location}', 'App\Http\Controllers\Admin\LocationsController@show')->name('locations.show');
     Route::get('admin/locations/create', 'App\Http\Controllers\Admin\LocationsController@create')->name('locations.create');
     Route::post('admin/locations/store', 'App\Http\Controllers\Admin\LocationsController@store')->name('locations.store');
-    Route::get('admin/locations/edit', 'App\Http\Controllers\Admin\LocationsController@edit')->name('locations.edit');
-    Route::delete('locations/destroy', 'App\Http\Controllers\Admin\LocationsController@destroy')->name('locations.destroy');
+    Route::get('admin/locations/edit/{location}', 'App\Http\Controllers\Admin\LocationsController@edit')->name('locations.edit');
+    Route::patch('/locations/update/{location}', 'App\Http\Controllers\Admin\LocationsController@update')->name('locations.update');
+    Route::delete('locations/destroy/{location}', 'App\Http\Controllers\Admin\LocationsController@destroy')->name('locations.destroy');
 
     // Event Types
     Route::delete('admin/event-types/destroy', 'App\Http\Controllers\Admin\EventTypesController@massDestroy')->name('event-types.massDestroy');

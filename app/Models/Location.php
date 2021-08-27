@@ -22,6 +22,7 @@ class Location extends Model implements HasMedia
     protected $fillable = [
         'name',
         'slug',
+        'picture',
     ];
     protected $guarded = ['id'];
     protected $table = 'locations';

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class LocationsController extends Controller
@@ -25,59 +26,53 @@ class LocationsController extends Controller
         return view('admin.locations.create');
     }
 
-    public function store(StoreLocationRequest $request)
+    public function store(Request $request)
     {
-        $location = Location::create($request->all());
-
-        if ($request->input('photo', false)) {
-            $location->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
+        $picture = $request->file('picture');
+        $path = null;
+        if($picture){
+            $path = $picture->store('public/locations');
+            $path = Str::replace('public','', $path);
         }
-
-        return redirect()->route('admin.locations.index');
+        $location = Location::create([
+            'name'=>$request->name,
+            'slug'=>$request->slug,
+            'picture'=>$path
+        ]);
+        return redirect(route('locations.index'));
     }
 
     public function edit(Location $location)
     {
-        abort_if(Gate::denies('location_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.locations.edit', compact('location'));
     }
 
-    public function update(UpdateLocationRequest $request, Location $location)
+    public function update(Request $request, Location $location)
     {
-        $location->update($request->all());
-
-        if ($request->input('photo', false)) {
-            if (!$location->photo || $request->input('photo') !== $location->photo->file_name) {
-                $location->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
-            }
-        } elseif ($location->photo) {
-            $location->photo->delete();
+        $picture = $reuqest->file('picture');
+        if($picture){
+            $path = $picture->store('public/locations');
+            $path = Str::replace('public','',$path);
+            $location->picture = $path;
         }
-
-        return redirect()->route('admin.locations.index');
+        $location->name = $request->input('name');
+        $location->slug = $request->input('slug');
+        $location->save();
+        return redirect(route('locations.index'))->with('success','Location updated');
     }
 
     public function show(Location $location)
     {
-        abort_if(Gate::denies('location_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.locations.show', compact('location'));
     }
 
-    public function destroy(Location $location)
+    public function destroy($id)
     {
-        abort_if(Gate::denies('location_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $location->delete();
+        $l = Location::findOrFail($id);
+        $l->delete();
 
-        return back();
+        return redirect(route('locations.index'))->with('success','Location deleted');
     }
 
-    public function massDestroy(MassDestroyLocationRequest $request)
-    {
-        Location::whereIn('id', request('ids'))->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }

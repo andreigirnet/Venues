@@ -27,8 +27,9 @@
                 <th scope="row">{{$location->id}}</th>
                 <td>{{$location->name}}</td>
                 <td>{{$location->slug}}</td>
-                <td style="display:flex">
+                <td style="display:flex; justify-content: space-around">
                     <a href="{{route('locations.edit', $location)}}"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('locations.show', $location)}}"><i class="fas fa-eye"></i></a>
                     <form action="{{route('locations.destroy',[$location->id])}}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -41,6 +42,6 @@
         </tbody>
     </table>
     <div style="margin-top: 30px;">
-        <div style="background-color:#34adda; width:100px; height: 50px; display: flex; align-items: center; justify-content: center"><a href="{{route('locations.create')}}" style="color:white;  cursor:pointer; text-decoration: none;">Create a User</a></div>
+        <div style="background-color:#34adda; width:120px; height: 50px; display: flex; align-items: center; justify-content: center"><a href="{{route('locations.create')}}" style="color:white;  cursor:pointer; text-decoration: none;">Create a location</a></div>
     </div>
 @endsection
