@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700,900|Roboto+Mono:300,400,500">
     <link rel="stylesheet" href="{{ asset('/public/fonts/icomoon/style.css') }}">
-
     <link rel="stylesheet" href="{{ asset('/public/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/jquery-ui.css') }}">
@@ -21,7 +20,6 @@
     <link rel="stylesheet" href="{{ asset('/public/css/aos.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/slide.css') }}">
-
 </head>
 <body>
 
@@ -47,7 +45,20 @@
                         <a href="#"><span class="text-black fl-bigmug-line-email64"></span> <span class="d-none d-md-inline-block ml-2">info@domain.com</span></a>
                     </p>
                 </div>
-                <div class="col-6 col-md-6 text-right">
+                <div  style="display: flex; align-items: center">
+                    @auth
+                    <div>Hello {{auth()->user()->name}} |</div>
+                        <form id="logout-form" action="{{ url('logout') }}" method="POST">
+                            {{ csrf_field() }}
+                            <button type="submit" class="ml-2 bg-orange" style="background-color: orange; border-radius: 10px; border-color: brown; color:white; cursor: pointer">Log out</button>
+                        </form>
+                    @else
+                    <div><a href="{{ route('login') }}">Login </a></div>
+                    <div class="ml-1"> / </div>
+                    <div ><a class="ml-1" href="{{route('register')}}"> Register</a></div>
+                    @endauth
+                </div>
+                <div class="col-4 col-md-4 text-right">
                     <a href="#" class="mr-3"><span class="text-black icon-facebook"></span></a>
                     <a href="#" class="mr-3"><span class="text-black icon-twitter"></span></a>
                     <a href="#" class="mr-0"><span class="text-black icon-linkedin"></span></a>
@@ -86,6 +97,9 @@
                             </li>
                             <li><a href="{{route('about')}}">About</a></li>
                             <li><a href="{{route('contact')}}">Contact</a></li>
+                            @if(auth()->check() && auth()->user()->is_admin )
+                            <li><a href="{{route('admin.home')}}">Dashboard</a></li>
+                            @endif
                         </ul>
                     </nav>
                 </div>

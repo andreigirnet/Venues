@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LocationRequest;
 use App\Models\Location;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\Response;
-
 class LocationsController extends Controller
 {
 
@@ -26,7 +24,7 @@ class LocationsController extends Controller
         return view('admin.locations.create');
     }
 
-    public function store(Request $request)
+    public function store(LocationRequest $request)
     {
         $picture = $request->file('picture');
         $path = null;
@@ -47,9 +45,9 @@ class LocationsController extends Controller
         return view('admin.locations.edit', compact('location'));
     }
 
-    public function update(Request $request, Location $location)
+    public function update(LocationRequest $request, Location $location)
     {
-        $picture = $reuqest->file('picture');
+        $picture = $request->file('picture');
         if($picture){
             $path = $picture->store('public/locations');
             $path = Str::replace('public','',$path);

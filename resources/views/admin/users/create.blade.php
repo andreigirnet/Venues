@@ -24,6 +24,11 @@
                 <option value="{{$role->id}}" >{{$role->title}}</option>
                 @endforeach
             </Select>
+        <label for="select">Is Admin Access</label>
+        <Select id="select" name="is_admin" style=" width: 1000px;border-radius: 3px;height: 33px; background-color: aliceblue; margin-top: 5px; margin-bottom: 18px;">
+                <option value="0" >Simple</option>
+                <option value="1" >Admin Access</option>
+        </Select>
 
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">

@@ -1,126 +1,108 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
-use App\EventType;
+use App\Http\Requests\VenueRequest;
+use App\Models\EventType;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyVenueRequest;
-use App\Http\Requests\StoreVenueRequest;
-use App\Http\Requests\UpdateVenueRequest;
-use App\Location;
-use App\Venue;
-use Gate;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Models\Location;
+use App\Models\Venue;
+use Illuminate\Support\Str;
+
 
 class VenuesController extends Controller
 {
-    use MediaUploadingTrait;
 
     public function index()
     {
-        abort_if(Gate::denies('venue_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $venues = Venue::all();
-
         return view('admin.venues.index', compact('venues'));
     }
 
     public function create()
     {
-        abort_if(Gate::denies('venue_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $locations = Location::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $event_types = EventType::all()->pluck('name', 'id');
-
+        $locations = Location::all();
+        $event_types = EventType::all();
         return view('admin.venues.create', compact('locations', 'event_types'));
     }
 
-    public function store(StoreVenueRequest $request)
+    public function store(VenueRequest $request)
     {
-        $venue = Venue::create($request->all());
-        $venue->event_types()->sync($request->input('event_types', []));
-
-        if ($request->input('main_photo', false)) {
-            $venue->addMedia(storage_path('tmp/uploads/' . $request->input('main_photo')))->toMediaCollection('main_photo');
+        $picture = $request->file('picture');
+        $path = null;
+        if($picture){
+            $path = $picture->store('public/venues');
+            $path = Str::replace('public','',$path);
         }
+        $event_type_id = $request->input('event_id');
+        $venue = Venue::create([
+            'name'=>$request->input('name'),
+            'slug'=>$request->input('slug'),
+            'address'=>$request->input('address'),
+            'people_minimum'=>$request->input('people_minimum'),
+            'people_maximum'=>$request->input('people_maximum'),
+            'features'=>$request->input('features'),
+            'price_per_hour'=>$request->input('price_per_hour'),
+            'description'=>$request->input('description'),
+            'location_id'=>$request->input('location_id'),
+            'picture'=>$path
+        ]);
+        $venue->event_types()->attach($event_type_id);
+        $venue->save();
 
-        foreach ($request->input('gallery', []) as $file) {
-            $venue->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('gallery');
-        }
-
-        return redirect()->route('admin.venues.index');
+        return redirect(route('venues.index'))->with('success','Venues has been created');
     }
 
     public function edit(Venue $venue)
     {
-        abort_if(Gate::denies('venue_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $locations = Location::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $event_types = EventType::all()->pluck('name', 'id');
-
-        $venue->load('location', 'event_types');
-
+        $locations = Location::all();
+        $event_types = EventType::all();
         return view('admin.venues.edit', compact('locations', 'event_types', 'venue'));
     }
 
-    public function update(UpdateVenueRequest $request, Venue $venue)
+    public function update(VenueRequest $request, Venue $venue)
     {
-        $venue->update($request->all());
-        $venue->event_types()->sync($request->input('event_types', []));
-
-        if ($request->input('main_photo', false)) {
-            if (!$venue->main_photo || $request->input('main_photo') !== $venue->main_photo->file_name) {
-                $venue->addMedia(storage_path('tmp/uploads/' . $request->input('main_photo')))->toMediaCollection('main_photo');
-            }
-        } elseif ($venue->main_photo) {
-            $venue->main_photo->delete();
+        $picture = $request->file('picture');
+        $big_picture = $request->file('big_picture');
+        $path = null;
+        $big_path = null;
+        if($picture){
+            $path = $picture->store('public/venues');
+            $path = Str::replace('public','',$path);
         }
-
-        if (count($venue->gallery) > 0) {
-            foreach ($venue->gallery as $media) {
-                if (!in_array($media->file_name, $request->input('gallery', []))) {
-                    $media->delete();
-                }
-            }
+        if($big_picture ){
+            $big_path = $big_picture->store('public/big_venues');
+            $big_path = Str::replace('public','',$big_path);
         }
+        $event_type_id = $request->input('event_id');
+        $input = ([
+            'name'=>$request->input('name'),
+            'slug'=>$request->input('slug'),
+            'address'=>$request->input('address'),
+            'people_minimum'=>$request->input('people_minimum'),
+            'people_maximum'=>$request->input('people_maximum'),
+            'features'=>$request->input('features'),
+            'price_per_hour'=>$request->input('price_per_hour'),
+            'description'=>$request->input('description'),
+            'location_id'=>$request->input('location_id'),
+            'picture'=>$path,
+            'big_picture'=>$big_path
+        ]);
+        $venue->event_types()->sync($event_type_id);
+        $venue->update($input);
 
-        $media = $venue->gallery->pluck('file_name')->toArray();
-
-        foreach ($request->input('gallery', []) as $file) {
-            if (count($media) === 0 || !in_array($file, $media)) {
-                $venue->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('gallery');
-            }
-        }
-
-        return redirect()->route('admin.venues.index');
+        return redirect(route('venues.index'))->with('success','Venue updated');
     }
 
     public function show(Venue $venue)
     {
-        abort_if(Gate::denies('venue_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $venue->load('location', 'event_types');
-
         return view('admin.venues.show', compact('venue'));
     }
 
-    public function destroy(Venue $venue)
+    public function destroy($id)
     {
-        abort_if(Gate::denies('venue_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $venue->delete();
-
-        return back();
+        $event = Venue::findOrFail($id);
+        $event->delete();
+        return redirect(route('venues.index'))->with('success','Venue deleted');
     }
 
-    public function massDestroy(MassDestroyVenueRequest $request)
-    {
-        Venue::whereIn('id', request('ids'))->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }

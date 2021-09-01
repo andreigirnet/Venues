@@ -37,6 +37,7 @@ class Location extends Model implements HasMedia
     public function venues(){
         return $this->hasMany(Venue::class,'location_id','id');
     }
+
     public function getPhotoAttribute(){
         $file = $this->getMedia('photo')->last();
         if($file){

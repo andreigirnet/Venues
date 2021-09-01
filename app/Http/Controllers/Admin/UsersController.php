@@ -56,8 +56,10 @@ class UsersController extends Controller
         $input = [
             'name' => $request->name,
             'email'=> $request->email,
-            'password'=>$request->password
+            'password'=>$request->password,
+            'is_admin'=>$request->is_admin
         ];
+        dd($input);
         $user->update($input);
         return redirect(route('users.index'))->with('success','The record was updated');
     }

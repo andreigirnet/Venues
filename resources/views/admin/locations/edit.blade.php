@@ -11,8 +11,8 @@
                 <input name="name" type="name"value="{{$location->name}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Email</label>
-                <input name="slug" type="name" class="form-control" id="exampleInputPassword1" placeholder="Slug">
+                <label for="exampleInputPassword1">Slug</label>
+                <input name="slug" value="{{$location->slug}}" type="name" class="form-control" id="exampleInputPassword1" placeholder="Slug">
             </div>
 
             <div class="form-check">
@@ -28,6 +28,7 @@
                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                 </div>
             </div>
+            <small>Photo should be 200x200</small><br>
             <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
         </form>
     </div>

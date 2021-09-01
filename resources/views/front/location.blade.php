@@ -16,7 +16,7 @@
                     <div class="col-md-6 col-lg-4 mb-4">
                        <a href="" class="prop-entry d-block">
                             <figure>
-                                <img src="{{$venue->getFirstMediaUrl('main_photo','big_thumb')}}" alt="" class="img-fluid" style="height: 233px; width: fit-content; ">
+                                <img src="{{asset('storage/'. $venue->picture)}}" alt="" class="img-fluid" style="height: 233px; width: fit-content; ">
                             </figure>
                             <div class="prop-text">
                                 <div class="inner">

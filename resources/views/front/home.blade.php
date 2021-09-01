@@ -6,7 +6,7 @@
     <!--image slider start-->
     <div class="slide-one-item home-slider owl-carousel">
         @foreach ($featuredVenues as $featuredVenue)
-            <div class="site-blocks-cover" style="background-image: url('{{ $featuredVenue->getFirstMediaUrl('main_photo') }}');"
+            <div class="site-blocks-cover" style="background-image: url('{{ asset('storage/'.$featuredVenue->big_picture) }}');"
                  data-aos="fade" data-stellar-background-ratio="0.5">
 
                 <div class="text">
@@ -102,10 +102,11 @@
             </div>
             <div class="row mb-5">
             @foreach($newestVenues as $venue)
+                @if($venue->picture)
                     <div class="col-md-6 col-lg-4 mb-4">
                        <a href="{{route('venue.show', [$venue->slug, $venue->id]) }}" class="prop-entry d-block">
                             <figure>
-                                <img src="{{$venue->getFirstMediaUrl('main_photo','big_thumb')}}" alt="" class="img-fluid" style="height: 233px; width: fit-content; ">
+                                <img src="{{asset('storage/'.$venue->picture)}}" alt="" class="img-fluid" style="height: 233px; width: fit-content; ">
                             </figure>
                             <div class="prop-text">
                                 <div class="inner">
@@ -128,6 +129,7 @@
                             </div>
                         </a>
                     </div>
+                    @endif
             @endforeach
             </div>
         </div>
@@ -149,7 +151,7 @@
                         <div class="slide-item">
                             <div class="team-member text-center">
                                 <a href="{{route('location', $location->slug)}}">
-                                    <img src="{{$location->getFirstMediaUrl('photo')}}" alt="" class="img-fluid mb-4 w-50 rounded-circle mx-auto">
+                                    <img src="{{asset('storage/'.$location->picture)}}" alt="" class="img-fluid mb-4 w-50 rounded-circle mx-auto">
                                 </a>
                                 <div class="text p-3">
                                     <a href="{{route('location', $location->slug)}}">

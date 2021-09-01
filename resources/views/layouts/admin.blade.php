@@ -37,6 +37,14 @@
     </style>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
     @yield('styles')
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea#editor',
+            menubar: false
+        });
+    </script>
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed pace-done sidebar-lg-show" style="margin: 0; padding: 0;">

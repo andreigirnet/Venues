@@ -42,7 +42,7 @@ class HomeController extends Controller
 //        ];
         $featuredVenues = Venue::where('is_featured',1)->get();
 
-        $eventTypes = EventType::all();
+        $eventTypes = EventType::orderBy('id', 'desc')->take(6)->get();
         $locations = Location::all();
  //       $flocation = Location::first()->getFirstMediaPath('photo');
 //        dd($flocation);
