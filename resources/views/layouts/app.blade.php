@@ -19,6 +19,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     <link href="{{ asset('/public/css/custom.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/public/css/slide.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/public/css/hovers.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     @yield('styles')
 </head>

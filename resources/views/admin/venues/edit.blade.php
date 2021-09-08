@@ -48,6 +48,11 @@
                     <option value="{{$event->id}}">{{$event->name}}</option>
                 @endforeach
             </Select>
+            <label for="select">Is featured</label>
+            <Select id="select" name="is_featured" style=" width: 1000px;border-radius: 3px;height: 33px; background-color: aliceblue; margin-top: 5px; margin-bottom: 18px;">
+                <option value="0" >Not Featured</option>
+                <option value="1" >Is Featured</option>
+            </Select>
 
             <div class="form-group">
                 <div class="row">

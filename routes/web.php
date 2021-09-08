@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\ClientVenueController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
@@ -33,7 +35,13 @@ Route::get('/', [HomeController::class, 'index']);
         return view('contact');
     })->name('contact');
     });
+
+
+
 Route::group(['middleware'=>'auth'],function() {
+    //Create a venue by user only registered
+    Route::get('/user/create/venue', [ClientVenueController::class, 'create'])->name('user.create');
+    Route::post('/user/store/venue', [ClientVenueController::class, 'store'])->name('user.store');
 //Back end routes
     Route::group([
         'middleware'=>'is_admin',

@@ -18,6 +18,7 @@ class Venue extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
         'slug',
         'address',
         'latitude',
@@ -44,6 +45,9 @@ class Venue extends Model
     public function event_types()
     {
         return $this->belongsToMany(EventType::class);
+    }
+    public function user(){
+        return $this->belongsTo(User::Class, 'user_id','id');
     }
 
 

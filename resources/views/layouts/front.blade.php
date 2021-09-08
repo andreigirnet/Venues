@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('/public/css/aos.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/slide.css') }}">
+    <link rel="stylesheet" href="/public/css/hovers.css">
 </head>
 <body>
 
@@ -50,7 +51,7 @@
                     <div>Hello {{auth()->user()->name}} |</div>
                         <form id="logout-form" action="{{ url('logout') }}" method="POST">
                             {{ csrf_field() }}
-                            <button type="submit" class="ml-2 bg-orange" style="background-color: orange; border-radius: 10px; border-color: brown; color:white; cursor: pointer">Log out</button>
+                            <button type="submit" class="ml-2 bg-orange" id="button-logout" style="background-color: orange; border-radius: 10px; border-color: brown; color:white; cursor: pointer; ">Log out</button>
                         </form>
                     @else
                     <div><a href="{{ route('login') }}">Login </a></div>
@@ -79,6 +80,11 @@
                         <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
 
                         <ul class="site-menu js-clone-nav d-none d-lg-block">
+                            @if(auth()->check())
+                            <li><a href="{{route('user.create')}}">List a venue</a></li>
+                            @else
+                                <li><a href="{{route('register')}}">List a Venue</a></li>
+                            @endif
                             <li class="has-children">
                                 <a href="/">Locations</a>
                                 <ul class="dropdown">
@@ -163,18 +169,9 @@
 
             </div>
 
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-            <div class="col-md-12">
-                <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;</script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-            </div>
 
+            </div>
         </div>
-    </div>
 </footer>
 
 
