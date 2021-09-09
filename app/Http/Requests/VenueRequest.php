@@ -31,7 +31,9 @@ class VenueRequest extends FormRequest
             'people_maximum'=>['required', 'integer'],
             'description'=>['required','min:5'],
             'price_per_hour'=>['required',],
-            'location_id'=>['required']
+            'location_id'=>['required'],
+            'picture'=>['required','image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'big_picture'=>['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']
         ];
     }
 }

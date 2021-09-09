@@ -50,7 +50,7 @@
             </Select>
             <label for="select">Is featured</label>
             <Select id="select" name="is_featured" style=" width: 1000px;border-radius: 3px;height: 33px; background-color: aliceblue; margin-top: 5px; margin-bottom: 18px;">
-                <option value="0" >Not Featured</option>
+                <option value="0" selected="{{$venue->is_featured}}">Not Featured</option>
                 <option value="1" >Is Featured</option>
             </Select>
 
@@ -72,7 +72,7 @@
                     <span class="input-group-text">Upload</span>
                 </div>
                 <div class="custom-file" id="picture">
-                    <input type="file" name="picture" class="custom-file-input" id="inputGroupFile01">
+                    <input type="file" name="picture" value="{{$venue->picture}}" class="custom-file-input" id="inputGroupFile01">
                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                     <span class="input-group-text">Upload a Big Image for slider(Only if it is featured)</span>
                 </div>
                 <div class="custom-file" id="big_picture">
-                    <input type="file" name="big_picture" class="custom-file-input" id="inputGroupFile01">
+                    <input type="file" name="big_picture" value="{{$venue->big_picture}}" class="custom-file-input" id="inputGroupFile01">
                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                 </div>
             </div>

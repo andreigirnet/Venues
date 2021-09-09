@@ -2,7 +2,7 @@
 
 @section('content')
     <div style="display: flex; justify-content: center; margin-top: 30px;">
-    <h2> Create a Venue</h2>
+    <h2> List a Venue</h2>
     </div>
     <div style="width:1000px; margin: 20px auto 90px auto" >
         <form action="{{route('user.store')}}" method="POST" enctype="multipart/form-data">

@@ -6,6 +6,7 @@ use App\Models\EventType;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use App\Models\Venue;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 
@@ -28,10 +29,16 @@ class VenuesController extends Controller
     public function store(VenueRequest $request)
     {
         $picture = $request->file('picture');
+        $big_picture = $request->file('picture');
         $path = null;
+        $big_path = null;
         if($picture){
-            $path = $picture->store('public/venues');
+            $path = $picture->store('public/big_venues');
             $path = Str::replace('public','',$path);
+        }
+        if($big_picture){
+            $big_path = $picture->store('public/venues');
+            $big_path = Str::replace('public','',$big_path);
         }
         $event_type_id = $request->input('event_id');
         $venue = Venue::create([
@@ -45,7 +52,8 @@ class VenuesController extends Controller
             'price_per_hour'=>$request->input('price_per_hour'),
             'description'=>$request->input('description'),
             'location_id'=>$request->input('location_id'),
-            'picture'=>$path
+            'picture'=>$path,
+            'big_picture'=>$big_path
         ]);
         $venue->event_types()->attach($event_type_id);
         $venue->save();
@@ -70,6 +78,7 @@ class VenuesController extends Controller
             $path = $picture->store('public/venues');
             $path = Str::replace('public','',$path);
         }
+
         if($big_picture ){
             $big_path = $big_picture->store('public/big_venues');
             $big_path = Str::replace('public','',$big_path);
