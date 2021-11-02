@@ -2,13 +2,13 @@
 @section('content')
     <div style="width:1000px; margin: 20px auto 0 auto">
         <h2>Edit a user</h2>
-        <form action="{{route('users.update',[$user->id])}}" method="POST">
+        <form action="{{route('users.update',[$user->id])}}"  method="POST">
             @csrf
             @method('patch')
             <div class="form-group">
 
                 <label for="exampleInputEmail1">Name</label>
-                <input name="name" type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$user->name}}">
+                <input name="name" type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$auth_user->name}}">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">

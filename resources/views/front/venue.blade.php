@@ -1,6 +1,6 @@
 @extends('layouts.front')
 @section('content')
-    <div class="site-blocks-cover overlay" style="background-image: url({{$venue->getFirstMediaUrl('main_photo')}})" data-aos="fade" data-stellar-background-ratio="0.5">
+    <div class="site-blocks-cover overlay" style="background-image: url({{asset('storage/'.$venue->big_picture)}})" data-aos="fade" data-stellar-background-ratio="0.5">
         <div class="container">
             <div class="row align-items-center justify-content-center text-center">
                 <div class="col-md-10">
@@ -18,15 +18,17 @@
                 <div class="col-lg-8" style="margin-top: -150px;">
                     <div class="mb-5">
                         <div class="slide-one-item home-slider owl-carousel">
-                            <div><img src="{{$venue->getFirstMediaUrl('main_photo','big_thumb')}}" alt="{{$venue->name}}"
+                            <div><img src="{{asset('storage/'.$venue->picture)}}" alt="{{$venue->name}}"
                                       class="img-fluid"></div>
                         </div>
                     </div>
                     <div class="bg-white">
-                        <div class="row mb-5">
+                        <div class="row mb-5" style="display: flex;">
                             <div class="col-md-6">
                                 <strong class="text-success h1 mb-3">${{$venue->price_per_hour}}</strong>
+
                             </div>
+                            <div style="margin-left: 219px;">Listed by <div style="color: #d28106">{{$venue->user->name}}</div></div>
                         </div>
                         <div class="row mb-5">
                             <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
@@ -156,7 +158,7 @@
                     <div class="col-md-6 col-lg-4 mb-4">
                         <a href="{{route('venue.show', [$venue->slug, $venue->id]) }}" class="prop-entry d-block">
                             <figure>
-                                <img src="{{$venue->getFirstMediaUrl('main_photo','big_thumb')}}" alt="" class="img-fluid" style="height: 233px; width: fit-content; ">
+                                <img src="{{asset('storage/'.$venue->big_picture)}}" alt="" class="img-fluid" style="height: 233px; width: fit-content; ">
                             </figure>
                             <div class="prop-text">
                                 <div class="inner">

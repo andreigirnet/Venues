@@ -42,6 +42,10 @@ Route::group(['middleware'=>'auth'],function() {
     //Create a venue by user only registered
     Route::get('/user/create/venue', [ClientVenueController::class, 'create'])->name('user.create');
     Route::post('/user/store/venue', [ClientVenueController::class, 'store'])->name('user.store');
+    //User-Dashboard
+    Route::get('/user/dashboard', [ClientVenueController::class, 'index'])->name('user.index');
+    Route::get('/user/profile/edit/{user}', [ClientVenueController::class, 'profile_edit'])->name('user.profile.edit');
+    Route::patch('/user/profile/edit/{user}', [ClientVenueController::class, 'profile_update'])->name('user.profile.update');
 //Back end routes
     Route::group([
         'middleware'=>'is_admin',

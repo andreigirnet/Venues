@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('/public/css/aos.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/css/slide.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="/public/css/hovers.css">
 </head>
 <body>
@@ -81,7 +82,12 @@
 
                         <ul class="site-menu js-clone-nav d-none d-lg-block">
                             @if(auth()->check())
-                            <li><a href="{{route('user.create')}}">List a venue</a></li>
+                            <li class="has-children">
+                                <a href="{{route('user.create')}}">List a venue</a>
+                                <ul class="dropdown">
+                                    <li><a href="{{route('user.index')}}">Dashboard</a></li>
+                                </ul>
+                            </li>
                             @else
                                 <li><a href="{{route('register')}}">List a Venue</a></li>
                             @endif
@@ -175,7 +181,7 @@
 </footer>
 
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.0.0/turbolinks.js" integrity="sha512-P3/SDm/poyPMRBbZ4chns8St8nky2t8aeG09fRjunEaKMNEDKjK3BuAstmLKqM7f6L1j0JBYcIRL4h2G6K6Lew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ asset('/public/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('/public/js/jquery-migrate-3.0.1.min.js') }}"></script>
 <script src="{{ asset('/public/js/jquery-ui.js') }}"></script>

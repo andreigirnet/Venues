@@ -47,7 +47,7 @@ class Venue extends Model
         return $this->belongsToMany(EventType::class);
     }
     public function user(){
-        return $this->belongsTo(User::Class, 'user_id','id');
+        return $this->belongsTo(User::Class);
     }
 
 

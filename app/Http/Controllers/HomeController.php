@@ -43,8 +43,6 @@ class HomeController extends Controller
         $featuredVenues = Venue::where('is_featured',1)->get();
         $eventTypes = EventType::orderBy('id', 'desc')->take(6)->get();
         $locations = Location::all();
- //       $flocation = Location::first()->getFirstMediaPath('photo');
-//        dd($flocation);
         $newestVenues = Venue::with('event_types')->latest()->take(6)->get();
         return view('front.home', compact('featuredVenues','eventTypes','locations','newestVenues'));
     }
